@@ -23,6 +23,13 @@ install_requires = [
     'pyopenssl',
 ]
 
+try:
+    os.environ['CFLAGS'] = os.environ.get('CFLAGS', '') + ' -I{}'.format(os.path.join(os.environ['CONDA_PREFIX'], 'include'))
+    os.environ['LDFLAGS'] = os.environ.get('LD_FLAGS', '') + ' -L{}'.format(os.path.join(os.environ['CONDA_PREFIX'], 'lib'))
+except KeyError:
+    pass
+
+
 if os.environ.get('READTHEDOCS') == 'True':
     cffi_modules = []
     install_requires = list(filter(lambda x: x != 'av', install_requires))
